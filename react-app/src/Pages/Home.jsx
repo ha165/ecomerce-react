@@ -1,17 +1,13 @@
 import { useState } from 'react'
 import Header from '../components/Header'
 import ProductSection from '../components/ProductSection'
-import { searchProducts } from '../utilis/searchProduct'
+import { searchProducts } from '../utils/searchProduct'
 import { products } from '../data/product'
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
   
   const sections = [
-    'Shop by Category',
-    'Top Picks for You',
-    'Top Selling Items',
-    'Your Recent Finds',
     'Top Deals',
     'Tech Week | Phone Deals',
     'Mobile Accessories',
@@ -29,6 +25,12 @@ export default function Home() {
     'More Deals to Browse',
     'Grocery Shopping',
   ]
+
+  // Group products by category
+  const productsByCategory = sections.reduce((acc, category) => {
+    acc[category] = products.filter(product => product.category === category)
+    return acc
+  }, {})
 
   // Filter products based on search query
   const filteredProducts = searchProducts(products, searchQuery)
@@ -78,11 +80,13 @@ export default function Home() {
             </div>
 
             {sections.map((section, index) => (
-              <ProductSection
-                key={index}
-                title={section}
-                products={products.slice(index * 3, index * 3 + 6)}
-              />
+              productsByCategory[section].length > 0 && (
+                <ProductSection
+                  key={index}
+                  title={section}
+                  products={productsByCategory[section]}
+                />
+              )
             ))}
           </>
         )}
@@ -92,7 +96,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">About Jumia</h3>
+              <h3 className="text-xl font-bold mb-4">About online Ecom</h3>
               <p className="text-gray-400">Your number one online shopping destination in Nigeria.</p>
             </div>
             <div>
@@ -112,7 +116,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-            © 2023 Jumia Clone. All rights reserved.
+            © 2023 online Ecom Clone. All rights reserved.
           </div>
         </div>
       </footer>

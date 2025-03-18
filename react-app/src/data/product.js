@@ -1,4 +1,11 @@
-import Iphone from "../images/Phones/Apple-iPhone-12-purple.jpg"
+import Iphone from "../images/Phones/Apple-iPhone-12-purple.jpg";
+import Headphones from "../images/Phones/Anker Soundcore.jpg";
+import TV1 from "../images/electronics/tv1.jpg";
+import Fittness from "../images/sports/fitness.jpg";
+import waistrainer from "../images/sports/waisttraner.jpg";
+import CookingSet from "../images/kitchen/stainless.jpg";
+import GamingLaptop from "../images/electronics/gaming-laptop.jpg";
+import Speaker1 from "../images/electronics/speaker1.jpg";
 export const products = [
   {
     id: 1,
@@ -25,7 +32,7 @@ export const products = [
     price: 249.99,
     originalPrice: 299.99,
     discount: 17,
-    image: "https://www.google.com/imgres?q=Wireless%20Noise-Cancelling%20Headphones&imgurl=https%3A%2F%2Fdreamaudio.co.ke%2Fwp-content%2Fuploads%2F2020%2F04%2F61xjMym3anL._AC_SL1500_.jpg&imgrefurl=https%3A%2F%2Fdreamaudio.co.ke%2Fshop%2Fbose-noise-cancelling-wireless-bluetooth-headphones-700%2F&docid=WQtgg2K9mFLCZM&tbnid=AOWKFeJCWf4wTM&vet=12ahUKEwia4YGNu5OMAxUbR_EDHU6qCWEQM3oFCIABEAA..i&w=1394&h=1409&hcb=2&ved=2ahUKEwia4YGNu5OMAxUbR_EDHU6qCWEQM3oFCIABEAA",
+    image: Headphones,
     description: "Premium wireless headphones with active noise cancellation.",
     specifications: [
       "30-hour Battery Life",
@@ -44,7 +51,7 @@ export const products = [
     price: 899.99,
     originalPrice: 999.99,
     discount: 10,
-    image: "https://www.google.com/imgres?q=4K%20Ultra%20HD%20Smart%20TV&imgurl=https%3A%2F%2Fres.cloudinary.com%2Fsharp-consumer-eu%2Fimage%2Ffetch%2Fw_1100%2Cf_auto%2Cq_auto%2Fhttps%3A%2F%2Fs3.infra.brandquad.io%2Faccounts-media%2FSHRP%2FDAM%2Forigin%2F35b03086-6ce5-11ea-939a-becc10303f49.jpg&imgrefurl=https%3A%2F%2Fwww.sharpconsumer.com%2Ftv%2F50bj2e%2F&docid=JUOvDsDk-_mwUM&tbnid=toLStdPKGfevCM&vet=12ahUKEwi97s2du5OMAxWOVfEDHdLxGdkQM3oECBkQAA..i&w=1100&h=619&hcb=2&ved=2ahUKEwi97s2du5OMAxWOVfEDHdLxGdkQM3oECBkQAA",
+    image: TV1,
     description: "55-inch 4K UHD Smart TV with HDR and built-in Alexa.",
     specifications: [
       "55-inch 4K Display",
@@ -59,11 +66,11 @@ export const products = [
   },
   {
     id: 4,
-    name: "Men's Casual Shirt",
+    name: "Fitness",
     price: 39.99,
     originalPrice: 49.99,
     discount: 20,
-    image: "data:image/jpeg;base64,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",
+    image: Fittness,
     description: "Comfortable and stylish casual shirt for men.",
     specifications: [
       "100% Cotton",
@@ -78,11 +85,11 @@ export const products = [
   },
   {
     id: 5,
-    name: "Women's Running Shoes",
+    name: "Women's Fitness",
     price: 89.99,
     originalPrice: 109.99,
     discount: 18,
-    image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.nike.com%2Fca%2Fw%2Fwomens-running-shoes-37v7jz5e1x6zy7ok&psig=AOvVaw0bng5Dhatesxm6j67X65lZ&ust=1742381607072000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJD68ri7k4wDFQAAAAAdAAAAABAE",
+    image: waistrainer,
     description: "Lightweight running shoes with breathable mesh.",
     specifications: [
       "Breathable Mesh Upper",
@@ -101,7 +108,7 @@ export const products = [
     price: 199.99,
     originalPrice: 249.99,
     discount: 20,
-    image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ubuy.ke%2Fen%2Fproduct%2F2DYWP92-cook-n-home-10-piece-stainless-steel-cookware-set&psig=AOvVaw3XSNWFPiN6PJr88Hf03Qac&ust=1742381639559000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMCB6Me7k4wDFQAAAAAdAAAAABAE",
+    image: CookingSet,
     description: "10-piece stainless steel cookware set for modern kitchens.",
     specifications: [
       "10-piece Set",
@@ -120,7 +127,7 @@ export const products = [
     price: 59.99,
     originalPrice: 79.99,
     discount: 25,
-    image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fhotpoint.co.ke%2Fcatalogue%2Fvon-vps10x5lek-bluetooth-portable-party-speaker-ipx5-10w-black_5173%2F&psig=AOvVaw1CgBFd1JOwnFjBVCtU9hia&ust=1742381672759000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNio0te7k4wDFQAAAAAdAAAAABAE",
+    image: Speaker1,
     description: "Waterproof portable speaker with 20-hour battery life.",
     specifications: [
       "IPX7 Waterproof",
@@ -128,7 +135,7 @@ export const products = [
       "Bluetooth 5.0",
       "Built-in Mic",
     ],
-    category: "Electronics",
+    category: "Sound System Deals",
     rating: 4.5,
     reviews: 312,
     inStock: true,
@@ -139,7 +146,7 @@ export const products = [
     price: 1499.99,
     originalPrice: 1699.99,
     discount: 12,
-    image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pcmag.com%2Fpicks%2Fthe-best-gaming-laptops&psig=AOvVaw2_BTY2WcbrfP4Jyd5dUB4e&ust=1742381708772000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKCq6ui7k4wDFQAAAAAdAAAAABAE",
+    image: GamingLaptop,
     description: "High-performance gaming laptop with RTX 3060.",
     specifications: [
       "15.6-inch 144Hz Display",

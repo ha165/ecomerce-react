@@ -45,9 +45,9 @@ export default function ProductSection({ title, products }) {
               </div>
               <h3 className="font-semibold mb-2 truncate">{product.name}</h3>
               <div className="flex items-center gap-2">
-                <p className="text-orange-500 font-bold">₦{product.price.toFixed(2)}</p>
+                <p className="text-orange-500 font-bold">ksh{product.price.toFixed(2)}</p>
                 {product.originalPrice && (
-                  <p className="text-gray-400 line-through text-sm">₦{product.originalPrice.toFixed(2)}</p>
+                  <p className="text-gray-400 line-through text-sm">ksh{product.originalPrice.toFixed(2)}</p>
                 )}
               </div>
             </Link>

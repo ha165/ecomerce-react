@@ -1,7 +1,6 @@
 export default function Header({ searchQuery, setSearchQuery }) {
   const handleSearch = (e) => {
     e.preventDefault();
-    // The search is handled in the Home component through the searchQuery state
   };
 
   return (
