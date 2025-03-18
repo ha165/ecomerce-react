@@ -10,6 +10,7 @@ import Wishlist from "./Pages/Wishlist";
 import Account from "./Pages/Account";
 import AddressBook from "./Pages/AddressBook";
 import PaymentMethods from "./Pages/PaymentMethods";
+import ProtectedRoute from "./Components/utils/ProtectedRoute";
 function App() {
   return (
     <Layout>
@@ -21,9 +22,11 @@ function App() {
         <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/address-book" element={<AddressBook />} />
-        <Route path="/payment-methods" element={<PaymentMethods />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/account" element={<Account />} />
+          <Route path="/address-book" element={<AddressBook />} />
+          <Route path="/payment-methods" element={<PaymentMethods />} />
+        </Route>
       </Routes>
     </Layout>
   );

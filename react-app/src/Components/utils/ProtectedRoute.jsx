@@ -1,9 +1,9 @@
-import React from 'react'
+import { Navigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  return (
-    <div>ProtectedRoute</div>
-  )
-}
+  const isAuthenticated = localStorage.getItem("user");
 
-export default ProtectedRoute
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+};
+
+export default ProtectedRoute;
