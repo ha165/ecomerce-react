@@ -1,4 +1,9 @@
-export default function Header({ searchQuery, setSearchQuery }) {
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
+export default function Header() {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const handleSearch = (e) => {
     e.preventDefault();
   };
@@ -6,7 +11,9 @@ export default function Header({ searchQuery, setSearchQuery }) {
   return (
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-4 py-3 flex items-center gap-4">
-        <h1 className="text-2xl font-bold text-orange-500">Online Ecom</h1>
+        <Link to="/" className="text-2xl font-bold text-orange-500">
+          online Ecom
+        </Link>
 
         <form onSubmit={handleSearch} className="flex-1 relative">
           <input
@@ -37,7 +44,10 @@ export default function Header({ searchQuery, setSearchQuery }) {
         </form>
 
         <div className="flex gap-4">
-          <button className="flex items-center gap-1 text-gray-700 hover:text-orange-500">
+          <Link
+            to="/account"
+            className="flex items-center gap-1 text-gray-700 hover:text-orange-500"
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -52,8 +62,11 @@ export default function Header({ searchQuery, setSearchQuery }) {
               />
             </svg>
             Account
-          </button>
-          <button className="flex items-center gap-1 text-gray-700 hover:text-orange-500">
+          </Link>
+          <Link
+            to="/cart"
+            className="flex items-center gap-1 text-gray-700 hover:text-orange-500"
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -68,9 +81,38 @@ export default function Header({ searchQuery, setSearchQuery }) {
               />
             </svg>
             Cart
-          </button>
+          </Link>
         </div>
       </div>
+
+      <nav className="bg-orange-500 text-white">
+        <div className="container mx-auto px-4 py-2 flex gap-6">
+          <Link
+            to="/categories"
+            className="hover:bg-orange-600 px-3 py-1 rounded"
+          >
+            All Categories
+          </Link>
+          <Link to="/deals" className="hover:bg-orange-600 px-3 py-1 rounded">
+            Today's Deals
+          </Link>
+          <Link
+            to="/electronics"
+            className="hover:bg-orange-600 px-3 py-1 rounded"
+          >
+            Electronics
+          </Link>
+          <Link to="/fashion" className="hover:bg-orange-600 px-3 py-1 rounded">
+            Fashion
+          </Link>
+          <Link
+            to="/home-office"
+            className="hover:bg-orange-600 px-3 py-1 rounded"
+          >
+            Home & Office
+          </Link>
+        </div>
+      </nav>
     </header>
   );
 }
