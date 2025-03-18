@@ -1,8 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 
 const Header = () => {
   const { cart } = useCart();
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("user");
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   return (
     <header className="bg-orange-500 text-white p-4 shadow-md">
@@ -17,6 +24,21 @@ const Header = () => {
           <Link to="/account" className="hover:underline">
             Account 👤
           </Link>
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className="bg-green-500 px-3 py-1 rounded hover:bg-green-600"
+            >
+              Login
+            </Link>
+          )}
         </nav>
       </div>
     </header>
