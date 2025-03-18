@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Header from '../components/Header'
 import ProductSection from '../components/ProductSection'
+import { searchProducts } from '../utils/searchProducts'
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -17,7 +18,8 @@ export default function Home() {
       'Specification 1',
       'Specification 2',
       'Specification 3'
-    ]
+    ],
+    category: ['Electronics', 'Fashion', 'Home'][i % 3]
   }))
 
   const sections = [
@@ -43,6 +45,9 @@ export default function Home() {
     'Grocery Shopping',
   ]
 
+  // Filter products based on search query
+  const filteredProducts = searchProducts(sampleProducts, searchQuery)
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -58,26 +63,51 @@ export default function Home() {
       </nav>
 
       <main className="container mx-auto px-4 py-6">
-        <div className="mb-8 bg-white p-4 rounded-lg shadow">
-          <div className="h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-            Hero Carousel Placeholder
+        {/* Show search results if there's a search query */}
+        {searchQuery && (
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold mb-4">Search Results for "{searchQuery}"</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map(product => (
+                  <ProductSection
+                    key={product.id}
+                    title={product.name}
+                    products={[product]}
+                  />
+                ))
+              ) : (
+                <p className="text-gray-500">No products found.</p>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
-        {sections.map((section, index) => (
-          <ProductSection
-            key={index}
-            title={section}
-            products={sampleProducts.slice(index * 3, index * 3 + 6)}
-          />
-        ))}
+        {/* Show regular sections when there's no search query */}
+        {!searchQuery && (
+          <>
+            <div className="mb-8 bg-white p-4 rounded-lg shadow">
+              <div className="h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                Hero Carousel Placeholder
+              </div>
+            </div>
+
+            {sections.map((section, index) => (
+              <ProductSection
+                key={index}
+                title={section}
+                products={sampleProducts.slice(index * 3, index * 3 + 6)}
+              />
+            ))}
+          </>
+        )}
       </main>
 
       <footer className="bg-gray-800 text-white mt-12">
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">About Onlie Ecom </h3>
+              <h3 className="text-xl font-bold mb-4">About Online Ecom</h3>
               <p className="text-gray-400">Your number one online shopping destination in Nigeria.</p>
             </div>
             <div>
@@ -97,7 +127,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-            © 2023 Onlie Ecom Clone. All rights reserved.
+            © 2023 Online Ecom Clone. All rights reserved.
           </div>
         </div>
       </footer>
