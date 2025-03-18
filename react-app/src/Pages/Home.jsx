@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Header from '../components/Header'
 import ProductSection from '../components/ProductSection'
-import { searchProducts } from '../utils/searchProducts'
+import { searchProducts } from '../utilis/searchProduct'
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
