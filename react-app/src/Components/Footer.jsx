@@ -7,7 +7,7 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-4">About online Ecom</h3>
             <p className="text-gray-400">
-              Your number one online shopping destination in Nigeria.
+              Your number one online shopping destination in Kenya.
             </p>
           </div>
           <div>
@@ -47,7 +47,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-          © 2023 online Ecom Clone. All rights reserved.
+          © 2023 online Ecom. All rights reserved.
         </div>
       </div>
     </footer>

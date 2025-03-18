@@ -59,11 +59,11 @@ export default function ProductDetails() {
                 </div>
               )}
               <p className="text-2xl font-bold text-orange-500">
-                ₦{product.price.toFixed(2)}
+                Ksh{product.price.toFixed(2)}
               </p>
               {product.originalPrice && (
                 <p className="text-gray-400 line-through">
-                  ₦{product.originalPrice.toFixed(2)}
+                  Ksh{product.originalPrice.toFixed(2)}
                 </p>
               )}
             </div>
