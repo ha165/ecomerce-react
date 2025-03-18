@@ -77,7 +77,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">About Jumia</h3>
+              <h3 className="text-xl font-bold mb-4">About Onlie Ecom </h3>
               <p className="text-gray-400">Your number one online shopping destination in Nigeria.</p>
             </div>
             <div>
@@ -97,7 +97,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-            © 2023 Jumia Clone. All rights reserved.
+            © 2023 Onlie Ecom Clone. All rights reserved.
           </div>
         </div>
       </footer>

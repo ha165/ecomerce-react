@@ -2,7 +2,7 @@ export default function Header({ searchQuery, setSearchQuery }) {
     return (
       <header className="bg-white shadow-md">
         <div className="container mx-auto px-4 py-3 flex items-center gap-4">
-          <h1 className="text-2xl font-bold text-orange-500">JUMIA</h1>
+          <h1 className="text-2xl font-bold text-orange-500">Onlie Ecom </h1>
           
           <div className="flex-1 relative">
             <input
