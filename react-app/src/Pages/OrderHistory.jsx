@@ -1,52 +1,52 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const storedOrders = JSON.parse(localStorage.getItem("orderHistory")) || [];
-    setOrders(storedOrders);
+    setOrders(JSON.parse(localStorage.getItem("orders")) || []);
   }, []);
-
-  if (orders.length === 0) {
-    return (
-      <div className="text-center p-10 text-gray-600">
-        No past orders found.{" "}
-        <Link to="/" className="text-blue-500">
-          Shop now
-        </Link>
-        .
-      </div>
-    );
-  }
 
   return (
     <div className="container mx-auto p-5">
       <h1 className="text-3xl font-bold mb-4">Order History</h1>
-      {orders.map((order) => (
-        <div key={order.id} className="border p-4 rounded-lg mb-4">
-          <h2 className="text-xl font-semibold">Order ID: {order.id}</h2>
-          <p>
-            <strong>Total:</strong> Ksh {order.total.toLocaleString()}
-          </p>
-          <p>
-            <strong>Payment:</strong> {order.paymentMethod}
-          </p>
-          <p>
-            <strong>Date:</strong> {new Date(order.id).toLocaleDateString()}
-          </p>
-          <h3 className="mt-2 font-semibold">Items Ordered:</h3>
-          {order.items.map((item) => (
-            <div key={item.id} className="flex justify-between border-b p-2">
-              <span>{item.name}</span>
-              <span>
-                Ksh {item.price.toLocaleString()} x {item.quantity}
+
+      {orders.length > 0 ? (
+        orders.map((order, index) => (
+          <div key={index} className="border p-4 mb-4 shadow-md">
+            <h2 className="text-xl font-semibold mb-2">Order #{order.id}</h2>
+            <p>
+              <strong>Date:</strong> {order.date}
+            </p>
+            <p>
+              <strong>Status:</strong>{" "}
+              <span
+                className={`px-2 py-1 text-white ${
+                  order.status === "Delivered"
+                    ? "bg-green-500"
+                    : "bg-yellow-500"
+                }`}
+              >
+                {order.status}
               </span>
-            </div>
-          ))}
-        </div>
-      ))}
+            </p>
+            <p>
+              <strong>Total:</strong> KSH {order.total}
+            </p>
+
+            <h3 className="mt-2 font-semibold">Items:</h3>
+            <ul className="list-disc pl-5">
+              {order.items.map((item, idx) => (
+                <li key={idx}>
+                  {item.name} - {item.quantity} x KSH {item.price}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      ) : (
+        <p>No orders found.</p>
+      )}
     </div>
   );
 };

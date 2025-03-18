@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Account = () => {
   const [user, setUser] = useState({
@@ -6,6 +7,7 @@ const Account = () => {
     email: "",
     phone: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedUser = JSON.parse(localStorage.getItem("user")) || {};
@@ -25,7 +27,7 @@ const Account = () => {
     <div className="container mx-auto p-5">
       <h1 className="text-3xl font-bold mb-4">My Account</h1>
 
-      <div className="max-w-md mx-auto">
+      <div className="max-w-md mx-auto mb-6">
         <input
           type="text"
           name="fullName"
@@ -58,6 +60,17 @@ const Account = () => {
           Save Changes
         </button>
       </div>
+
+      <ul className="list-none">
+        <li>
+          <button
+            onClick={() => navigate("/order-history")}
+            className="text-blue-500 underline"
+          >
+            View Order History
+          </button>
+        </li>
+      </ul>
     </div>
   );
 };
