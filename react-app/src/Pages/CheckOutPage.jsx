@@ -21,11 +21,6 @@ const Checkout = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!form.fullName || !form.email || !form.phone || !form.address) {
-      alert("Please fill in all fields");
-      return;
-    }
-
     const order = {
       id: Date.now(),
       items: cart,
@@ -37,6 +32,13 @@ const Checkout = () => {
     };
 
     localStorage.setItem("lastOrder", JSON.stringify(order));
+
+    // Save to order history
+    const orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
+    localStorage.setItem(
+      "orderHistory",
+      JSON.stringify([...orderHistory, order])
+    );
 
     navigate("/order-confirmation");
   };
