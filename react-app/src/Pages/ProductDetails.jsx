@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { products } from '../data/product'
 
 export default function ProductDetails() {
   const { id } = useParams()
@@ -7,25 +8,8 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1)
 
   useEffect(() => {
-    // Fetch product details from API
-    const sampleProduct = {
-      id: id,
-      name: `Product ${id}`,
-      price: Math.random() * 500 + 50,
-      originalPrice: Math.random() > 0.5 ? Math.random() * 800 + 100 : null,
-      discount: Math.random() > 0.5 ? Math.floor(Math.random() * 70) + 10 : null,
-      image: 'placeholder.jpg',
-      description: 'This is a detailed description of the product.',
-      specifications: [
-        'Specification 1',
-        'Specification 2',
-        'Specification 3'
-      ],
-      rating: 4.5,
-      reviews: 123,
-      inStock: true
-    }
-    setProduct(sampleProduct)
+    const foundProduct = products.find(p => p.id === parseInt(id))
+    setProduct(foundProduct)
   }, [id])
 
   if (!product) return <div>Loading...</div>
@@ -37,7 +21,11 @@ export default function ProductDetails() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Product Image */}
             <div className="bg-gray-200 rounded-lg h-96 flex items-center justify-center">
-              Image Placeholder
+              <img 
+                src={product.image} 
+                alt={product.name}
+                className="w-full h-full object-cover rounded-lg"
+              />
             </div>
 
             {/* Product Details */}

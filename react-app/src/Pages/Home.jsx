@@ -2,26 +2,11 @@ import { useState } from 'react'
 import Header from '../components/Header'
 import ProductSection from '../components/ProductSection'
 import { searchProducts } from '../utilis/searchProduct'
+import { products } from '../data/product'
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
   
-  const sampleProducts = Array(24).fill().map((_, i) => ({
-    id: i + 1,
-    name: `Product ${i + 1}`,
-    price: Math.random() * 500 + 50,
-    originalPrice: Math.random() > 0.5 ? Math.random() * 800 + 100 : null,
-    discount: Math.random() > 0.5 ? Math.floor(Math.random() * 70) + 10 : null,
-    image: 'placeholder.jpg',
-    description: 'This is a detailed description of the product.',
-    specifications: [
-      'Specification 1',
-      'Specification 2',
-      'Specification 3'
-    ],
-    category: ['Electronics', 'Fashion', 'Home'][i % 3]
-  }))
-
   const sections = [
     'Shop by Category',
     'Top Picks for You',
@@ -46,7 +31,7 @@ export default function Home() {
   ]
 
   // Filter products based on search query
-  const filteredProducts = searchProducts(sampleProducts, searchQuery)
+  const filteredProducts = searchProducts(products, searchQuery)
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -96,7 +81,7 @@ export default function Home() {
               <ProductSection
                 key={index}
                 title={section}
-                products={sampleProducts.slice(index * 3, index * 3 + 6)}
+                products={products.slice(index * 3, index * 3 + 6)}
               />
             ))}
           </>
@@ -107,7 +92,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">About Online Ecom</h3>
+              <h3 className="text-xl font-bold mb-4">About Jumia</h3>
               <p className="text-gray-400">Your number one online shopping destination in Nigeria.</p>
             </div>
             <div>
@@ -127,7 +112,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
-            © 2023 Online Ecom Clone. All rights reserved.
+            © 2023 Jumia Clone. All rights reserved.
           </div>
         </div>
       </footer>
