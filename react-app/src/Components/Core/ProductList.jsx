@@ -1,12 +1,20 @@
 import ProductCard from "./ProductCard";
 import products from "../../data/product";
+import { Link } from "react-router-dom";
 
-const ProductList = () => {
+const ProductList = ({ category }) => {
+  const filteredProducts = category
+    ? products.filter((product) => product.category === category)
+    : products;
+
   return (
     <div className="container mx-auto p-5">
-      <h2 className="text-2xl font-bold mb-4">Featured Products</h2>
+      <h1 className="text font-bold mb-4">
+        Featured Products 
+        <Link to="/products" className="text-blue-500 ml-2">View All</Link>
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
