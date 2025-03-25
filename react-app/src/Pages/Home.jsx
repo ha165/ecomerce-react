@@ -3,30 +3,14 @@ import Carousel from "../Components/Ui/Carousel";
 import ProductList from "../Components/Core/ProductList";
 
 const SECTIONS = [
-  {
-    title: "Tech Week | Top Picks for You",
-    category: "top-picks",
-    bgColor: "bg-gradient-to-r from-blue-50 to-purple-50",
-  },
-  {
-    title: "Top Selling Items",
-    category: "top-selling",
-    bgColor: "bg-gradient-to-r from-orange-50 to-yellow-50",
-  },
-  {
-    title: "Your Recent Finds",
-    category: "recent-finds",
-    bgColor: "bg-gradient-to-r from-green-50 to-teal-50",
-  },
-  {
-    title: "Tech Week | Phone Deals",
-    category: "phone-deals",
-    bgColor: "bg-gradient-to-r from-red-50 to-pink-50",
-  },
+  { title: "Tech Week | Top Picks for You", category: "top-picks", limit: 6 },
+  { title: "Top Selling Items", category: "top-selling", limit: 6 },
+  { title: "Your Recent Finds", category: "recent-finds", limit: 6 },
+  { title: "Tech Week | Phone Deals", category: "phone-deals", limit: 6 },
   {
     title: "Tech Week | Mobile Accessories",
     category: "mobile-accessories",
-    bgColor: "bg-gradient-to-r from-indigo-50 to-blue-50",
+    limit: 6,
   },
 ];
 
@@ -127,7 +111,7 @@ const Home = () => {
                 </svg>
               </a>
             </div>
-            <ProductList category={section.category} />
+            <ProductList category={section.category} limit={section.limit} />
           </div>
         </section>
       ))}
