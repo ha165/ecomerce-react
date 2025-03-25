@@ -93,23 +93,6 @@ const Home = () => {
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
                 {section.title}
               </h2>
-              <a
-                href="#"
-                className="text-orange-600 hover:text-orange-800 font-medium flex items-center"
-              >
-                View all
-                <svg
-                  className="w-4 h-4 ml-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </a>
             </div>
             <ProductList category={section.category} limit={section.limit} />
           </div>
