@@ -1,7 +1,7 @@
 {
-  "name": "react-app",
+  "name": "Onlline Ecom",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.0.14",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
