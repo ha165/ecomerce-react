@@ -1,9 +1,25 @@
-import React from 'react'
+import ProductList from "../Components/Core/ProductList";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const ProductPage = () => {
+const ProductsPage = () => {
+  const location = useLocation();
+  const [category, setCategory] = useState("all");
+
+  useEffect(() => {
+    // Extract category from URL query params
+    const params = new URLSearchParams(location.search);
+    const urlCategory = params.get("category");
+    if (urlCategory) {
+      setCategory(urlCategory);
+    }
+  }, [location.search]);
+
   return (
-    <div>ProductPage</div>
-  )
-}
+    <div className="py-8">
+      <ProductList category={category} showFilters={true} />
+    </div>
+  );
+};
 
-export default ProductPage
+export default ProductsPage;
