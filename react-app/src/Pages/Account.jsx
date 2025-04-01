@@ -27,7 +27,7 @@ const Account = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch("http://localhost:8000/api/user", {
+      const response = await fetch("/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -66,7 +66,7 @@ const Account = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch("http://localhost:8000/api/user", {
+      const response = await fetch("/api/user", {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -117,7 +117,7 @@ const Account = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch("http://localhost:8000/api/user", {
+      const response = await fetch("/api/user", {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
