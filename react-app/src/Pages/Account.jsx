@@ -1,27 +1,152 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Account = () => {
   const [user, setUser] = useState({
-    fullName: "",
+    name: "",
     email: "",
     phone: "",
+    address: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem("user")) || {};
-    setUser(savedUser);
+    fetchUserData();
   }, []);
+
+  const fetchUserData = async () => {
+    const token = localStorage.getItem("auth_token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await fetch("http://localhost:8000/api/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+
+      const data = await response.json();
+      setUser(data);
+    } catch (error) {
+      toast.error(error.message);
+      if (error.response?.status === 401) {
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("user");
+        navigate("/login");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSave = () => {
-    localStorage.setItem("user", JSON.stringify(user));
-    alert("Account details updated successfully!");
+  const handleSave = async () => {
+    const token = localStorage.getItem("auth_token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await fetch("http://localhost:8000/api/user", {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (data.errors) {
+          throw new Error(Object.values(data.errors).join("\n"));
+        }
+        throw new Error(data.message || "Failed to update profile");
+      }
+
+      toast.success("Profile updated successfully!");
+      setIsEditing(false);
+      // Update local storage if needed
+      localStorage.setItem("user", JSON.stringify(data.user));
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const handleChangePassword = () => {
+    navigate("/change-password");
+  };
+
+  const handleDeleteAccount = async () => {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete your account? This action cannot be undone."
+      )
+    ) {
+      return;
+    }
+
+    const token = localStorage.getItem("auth_token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await fetch("http://localhost:8000/api/user", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete account");
+      }
+
+      toast.success("Account deleted successfully");
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("user");
+      navigate("/");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -40,19 +165,24 @@ const Account = () => {
             <div className="space-y-6">
               <div>
                 <label
-                  htmlFor="fullName"
+                  htmlFor="name"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Full Name
                 </label>
                 <input
                   type="text"
-                  id="fullName"
-                  name="fullName"
-                  value={user.fullName}
+                  id="name"
+                  name="name"
+                  value={user.name}
                   onChange={handleChange}
                   placeholder="John Doe"
-                  className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-base"
+                  disabled={!isEditing}
+                  className={`mt-1 block w-full px-4 py-3 border ${
+                    isEditing
+                      ? "border-gray-300"
+                      : "border-transparent bg-gray-50"
+                  } rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-base`}
                 />
               </div>
 
@@ -70,7 +200,8 @@ const Account = () => {
                   value={user.email}
                   onChange={handleChange}
                   placeholder="john@example.com"
-                  className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-base"
+                  disabled
+                  className="mt-1 block w-full px-4 py-3 border border-transparent bg-gray-50 rounded-md shadow-sm text-base"
                 />
               </div>
 
@@ -87,19 +218,65 @@ const Account = () => {
                   name="phone"
                   value={user.phone}
                   onChange={handleChange}
-                  placeholder="+254 700 000000"
-                  className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-base"
+                  placeholder="254700000000"
+                  disabled={!isEditing}
+                  className={`mt-1 block w-full px-4 py-3 border ${
+                    isEditing
+                      ? "border-gray-300"
+                      : "border-transparent bg-gray-50"
+                  } rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-base`}
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Address
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={user.address || ""}
+                  onChange={handleChange}
+                  placeholder="123 Main St, Nairobi"
+                  disabled={!isEditing}
+                  className={`mt-1 block w-full px-4 py-3 border ${
+                    isEditing
+                      ? "border-gray-300"
+                      : "border-transparent bg-gray-50"
+                  } rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 text-base`}
                 />
               </div>
             </div>
 
-            <div className="mt-8 flex justify-end">
-              <button
-                onClick={handleSave}
-                className="ml-3 inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-150"
-              >
-                Save Changes
-              </button>
+            <div className="mt-8 flex justify-end space-x-3">
+              {isEditing ? (
+                <>
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="inline-flex justify-center py-3 px-6 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-150"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSave}
+                    disabled={isLoading}
+                    className="ml-3 inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-150"
+                  >
+                    {isLoading ? "Saving..." : "Save Changes"}
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="ml-3 inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-150"
+                >
+                  Edit Profile
+                </button>
+              )}
             </div>
           </div>
 
@@ -130,7 +307,10 @@ const Account = () => {
                 </button>
               </li>
               <li>
-                <button className="text-orange-600 hover:text-orange-800 font-medium flex items-center">
+                <button
+                  onClick={handleChangePassword}
+                  className="text-orange-600 hover:text-orange-800 font-medium flex items-center"
+                >
                   <svg
                     className="w-5 h-5 mr-2"
                     fill="none"
@@ -148,7 +328,10 @@ const Account = () => {
                 </button>
               </li>
               <li>
-                <button className="text-red-600 hover:text-red-800 font-medium flex items-center">
+                <button
+                  onClick={handleDeleteAccount}
+                  className="text-red-600 hover:text-red-800 font-medium flex items-center"
+                >
                   <svg
                     className="w-5 h-5 mr-2"
                     fill="none"

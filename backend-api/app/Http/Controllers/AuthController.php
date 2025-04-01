@@ -55,7 +55,7 @@ class AuthController extends Controller
             throw ValidationException::withMessages(['email' => 'Invalid credentials']);
         }
 
-        return response()->json(['token' => $user->createToken('auth_token')->plainTextToken]);
+        return response()->json([$user,'token' => $user->createToken('auth_token')->plainTextToken]);
     }
 
     public function logout(Request $request)

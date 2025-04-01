@@ -3,6 +3,7 @@ import { useCart } from "../../context/CartContext";
 import { FiShoppingCart, FiUser, FiLogOut, FiLogIn } from "react-icons/fi";
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const { cart } = useCart();
@@ -12,7 +13,9 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    setIsAuthenticated(!!localStorage.getItem("user"));
+    // Check if user is authenticated
+    const user = localStorage.getItem("user");
+    setIsAuthenticated(!!user);
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -24,7 +27,9 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("auth_token");
     setIsAuthenticated(false);
+    toast.success("Logged out successfully");
     navigate("/login");
   };
 
@@ -126,20 +131,44 @@ const Header = () => {
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="hidden md:flex items-center space-x-1 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md transition-colors"
+                  className={`hidden md:flex items-center space-x-1 ${
+                    isScrolled
+                      ? "bg-red-500 hover:bg-red-600"
+                      : "bg-white text-orange-600 hover:bg-gray-100"
+                  } text-white px-3 py-1 rounded-md transition-colors`}
                 >
                   <FiLogOut className="h-5 w-5" />
                   <span>Logout</span>
                 </button>
+                {/* Mobile Logout Button */}
+                <button
+                  onClick={handleLogout}
+                  className="md:hidden p-2 hover:bg-orange-100 hover:bg-opacity-20 rounded-full transition-colors"
+                >
+                  <FiLogOut className="h-6 w-6" />
+                </button>
               </>
             ) : (
-              <Link
-                to="/login"
-                className="hidden md:flex items-center space-x-1 bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md transition-colors"
-              >
-                <FiLogIn className="h-5 w-5" />
-                <span>Login</span>
-              </Link>
+              <>
+                <Link
+                  to="/login"
+                  className={`hidden md:flex items-center space-x-1 ${
+                    isScrolled
+                      ? "bg-green-500 hover:bg-green-600"
+                      : "bg-white text-orange-600 hover:bg-gray-100"
+                  } text-white px-3 py-1 rounded-md transition-colors`}
+                >
+                  <FiLogIn className="h-5 w-5" />
+                  <span>Login</span>
+                </Link>
+                {/* Mobile Login Button */}
+                <Link
+                  to="/login"
+                  className="md:hidden p-2 hover:bg-orange-100 hover:bg-opacity-20 rounded-full transition-colors"
+                >
+                  <FiLogIn className="h-6 w-6" />
+                </Link>
+              </>
             )}
           </nav>
         </div>

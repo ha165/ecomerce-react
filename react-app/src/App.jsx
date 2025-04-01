@@ -13,6 +13,8 @@ import PaymentMethods from "./Pages/PaymentMethods";
 import ProtectedRoute from "./Components/utils/ProtectedRoute";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <Layout>
@@ -25,13 +27,25 @@ function App() {
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/login" element={<Login />} />
-        <Route path = "/register" element={<Register />} />
+        <Route path="/register" element={<Register />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<Account />} />
           <Route path="/address-book" element={<AddressBook />} />
           <Route path="/payment-methods" element={<PaymentMethods />} />
         </Route>
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </Layout>
   );
 }
