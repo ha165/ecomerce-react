@@ -12,6 +12,7 @@ import AddressBook from "./Pages/AddressBook";
 import PaymentMethods from "./Pages/PaymentMethods";
 import ProtectedRoute from "./Components/utils/ProtectedRoute";
 import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
 function App() {
   return (
     <Layout>
@@ -24,6 +25,7 @@ function App() {
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/login" element={<Login />} />
+        <Route path = "/register" element={<Register />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/account" element={<Account />} />
           <Route path="/address-book" element={<AddressBook />} />
