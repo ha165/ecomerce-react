@@ -3,48 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Orders;
-use App\Http\Requests\StoreOrdersRequest;
-use App\Http\Requests\UpdateOrdersRequest;
+use Illuminate\Http\Request;
 
 class OrdersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Orders::where('user_id', auth()->id())->get());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreOrdersRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate(['total_price' => 'required|numeric']);
+
+        $order = Orders::create([
+            'user_id' => auth()->id(),
+            'total_price' => $request->total_price,
+            'status' => 'pending',
+            'payment_method' => $request->payment_method ?? 'Mpesa',
+        ]);
+
+        return response()->json($order, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Orders $orders)
+    public function updateStatus($id, Request $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateOrdersRequest $request, Orders $orders)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Orders $orders)
-    {
-        //
+        $order = Orders::findOrFail($id);
+        $order->update(['status' => $request->status]);
+        return response()->json(['message' => 'Order updated']);
     }
 }

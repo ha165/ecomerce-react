@@ -3,48 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payments;
-use App\Http\Requests\StorePaymentsRequest;
-use App\Http\Requests\UpdatePaymentsRequest;
+use Illuminate\Http\Request;
 
 class PaymentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Payments::where('user_id', auth()->id())->get());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePaymentsRequest $request)
+    public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            'amount' => 'required|numeric',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Payments $payments)
-    {
-        //
-    }
+        $payment = Payments::create([
+            'user_id' => auth()->id(),
+            'order_id' => $request->order_id,
+            'amount' => $request->amount,
+            'payment_method' => $request->payment_method ?? 'Mpesa',
+            'transaction_id' => 'MPESA' . rand(10000, 99999),
+            'status' => 'completed',
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePaymentsRequest $request, Payments $payments)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Payments $payments)
-    {
-        //
+        return response()->json($payment, 201);
     }
 }

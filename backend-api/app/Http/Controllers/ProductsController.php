@@ -3,48 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
-use App\Http\Requests\StoreProductsRequest;
-use App\Http\Requests\UpdateProductsRequest;
+use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Products::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreProductsRequest $request)
+    public function show($id)
     {
-        //
+        return response()->json(Products::findOrFail($id));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Products $products)
+    public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'name' => 'required|string|unique:products',
+            'price' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'required|exists:brands,id',
+            'stock' => 'required|integer',
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProductsRequest $request, Products $products)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Products $products)
-    {
-        //
+        $product = Products::create($request->all());
+        return response()->json($product, 201);
     }
 }

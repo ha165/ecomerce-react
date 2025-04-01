@@ -3,48 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brands;
-use App\Http\Requests\StoreBrandsRequest;
-use App\Http\Requests\UpdateBrandsRequest;
+use Illuminate\Http\Request;
 
 class BrandsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Brands::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBrandsRequest $request)
+    public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Brands $brands)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBrandsRequest $request, Brands $brands)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Brands $brands)
-    {
-        //
+        $request->validate(['name' => 'required|string|unique:brands']);
+        $brand = Brands::create(['name' => $request->name]);
+        return response()->json($brand, 201);
     }
 }
